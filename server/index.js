@@ -19,6 +19,8 @@ app.use(cors(corsOptions));
 
 // Substitute for a database
 let items = [ {id: 0, name: "Moby Dick"}, {id: 1, name: "Catcher in the Rye"}, {id: 2, name: "Huckleberry Finn"}, {id: 3, name: "Jujutsu Kaisen"}, {id: 4, name: "Stranger no. 44"}];
+let string = ["HelloWorld"];
+
 
 // Defines default route to demonstate server status
 app.get('/', (req,res) => {
@@ -31,6 +33,13 @@ app.get('/list', async (req,res) => {
   await sleep(2000);  // Simulates awating for operations
   res.send(items);
 });
+
+// Retrieves string content
+app.get('/string', async (req, res) => {
+  console.log("String Requested")
+  await sleep(2000) // Simulates awaiting for operations
+  res.send(string)
+})
 
 // Adds to list content
 app.post('/list', async (req,res) => {
@@ -46,6 +55,14 @@ app.post('/list', async (req,res) => {
   await sleep(2000);
   res.status(200).send("Added item");
 });
+
+// Adds to string content
+app.post('/string', async(req,res) => {
+  console.log("REQUEST:", req.body);
+  string = [string[0] + "__" + req.body.str];
+  await sleep(2000);
+  res.status(200).send("Added to string");
+})
 
 // Deletes from the list given an id
 app.delete('/list/:id', async (req,res) => {
